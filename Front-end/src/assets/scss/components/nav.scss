@@ -1,0 +1,36 @@
+.nav-wrapper{
+  .background-wrapper {
+    display: inline-block;
+    width: 100%;
+    max-height: 100vh;
+    min-height: 15vh;
+    background-color: #eee;
+    img {
+      width: 100%;
+      max-height: inherit;
+      max-width: 100%;
+      vertical-align: middle;
+      opacity: 0;
+    }
+  }
+}
+.logo-wrapper {
+  width: 100%;
+}
+.logo-wrapper{
+    background-size: 100% 100%;
+    display:block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: middle;
+
+}
+@media (min-width: 768px) {
+  .nav-wrapper {
+    /*请研究如何使sidebar在左端不动，下面的设置是可行的*/
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 100vh;
+  }
+}

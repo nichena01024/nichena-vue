@@ -39,7 +39,7 @@ articleApi.getArticleList = async(req, res) => {
     getList(currentListSize, requestedSize)
         .then((data) => {
         let arr = [];
-        for (let item in data){
+        for (let item of data){
             let result = {};
             result.objectId = item.get('objectId');
             result.title = item.get('title');
@@ -78,15 +78,33 @@ articleApi.submitArticle = async (req, res) => {
 
     post.save()
         .then(() => {
-        console.log('存储文章，标题： ' + post.get('title'));
+        console.log('存储文章，标题： ' + post.get('title'));//TODO: 如何在云端console中显示存储的评论ObjectId
         res.status(200).send('Successfully submitted');
     })
         .catch((err) => {
-        console.error('存储文章ID = '+ post.get('ObjectId') + '时发生错误，错误内容： ' + err.message);
+        console.error('存储文章ID = '+ post.get('ObjectId') + '时发生错误，错误内容： ' + err.message);//TODO: 如何在云端console中显示存储的评论ObjectId
         res.status(502).send('error when save this article');
     });
 }
+//获取文章，想通过各种方式（文章唯一索引方式）
+articleApi.getArticle = async (req, res) => {
+    const id = req.query.id;
 
-
+    const queryArticle = (id) => {
+        const query = new AV.Query('Article');
+        return query.get(id);
+    }
+    queryArticle(id)
+        .then((data) => {
+            let result = {};
+            result.title = data.get('title');
+            result.img_url = data.get('img_url');
+            result.abstract = data.get('abstract');
+            result.content = data.get('content');
+            result.createdAt = data.get('createdAt').Format("yyyy-MM-dd");
+            res.send(result)
+                .catch((err) => {console.err('发送文章失败，错误信息：' + err.message)})
+        }).catch((err) => res.status(500).send('unable to get article information. Error message: ' + err.message))
+}
 
 module.exports = articleApi;

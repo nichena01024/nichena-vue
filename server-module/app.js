@@ -10,7 +10,7 @@ const apiRouter = require('./api')
 
 require('babel-core/register');
 
-xonst app = express();
+const app = express();
 
 // 设置模板引擎
 //app.set('views', path.join(__dirname, 'views'));
